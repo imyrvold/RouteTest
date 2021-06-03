@@ -6,14 +6,18 @@
 //
 
 import UIKit
+import SwiftUI
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 
-
+    @IBSegueAction func makeSwiftUI(_ coder: NSCoder) -> UIViewController? {
+        let viewRouter = ViewRouter()
+        return UIHostingController(coder: coder, rootView: Test1(router: viewRouter))
+    }
+    
 }
 
