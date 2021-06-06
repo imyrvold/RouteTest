@@ -9,32 +9,53 @@ import SwiftUI
 
 class ViewRouter: ObservableObject {
     enum Step { case test1, test2, test3, test4 }
-    @Published var step: Step = .test1
+    @Published var step: Step
+    private var nextStep: Step?
     @ViewBuilder var nextStepView: some View {
         switch step {
         case .test1:
             Test1(router: self)
         case .test2:
-            Test2(router: self)
+            Test2(router: ViewRouter(step: .test2))
         case .test3:
-            Test3(router: self)
+            Test3(router: ViewRouter(step: .test3))
         case .test4:
-            Test4(router: self)
+            Test4(router: ViewRouter(step: .test4))
         }
+    }
+    
+    init(step: Step) {
+        self.step = step
     }
     
     func didFinish() {
         switch step {
         case .test1:
-            step = .test2
+            if let next = nextStep {
+                step = next
+            } else {
+                step = .test2
+                nextStep = .test2
+            }
         case .test2:
-            step = .test3
+            if let next = nextStep {
+                step = next
+            } else {
+                step = .test3
+                nextStep = .test3
+            }
         case .test3:
-            step = .test4
+            if let next = nextStep {
+                step = next
+            } else {
+                step = .test4
+                nextStep = .test4
+            }
         case .test4:
             break
         }
     }
+    
 }
 
 struct Test1: View {
@@ -115,12 +136,6 @@ struct Test4: View {
 
             Text("Test4")
             
-            Button(action: {
-                nextView = true
-                router.didFinish()
-            }, label: {
-                Text("Next")
-            })
         }
     }
 }

@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     }
 
     @IBSegueAction func makeSwiftUI(_ coder: NSCoder) -> UIViewController? {
-        let viewRouter = ViewRouter()
+        let viewRouter = ViewRouter(step: .test1)
         return UIHostingController(coder: coder, rootView: Test1(router: viewRouter))
     }
     
